@@ -1,0 +1,16 @@
+*~
+*.log
+*.egg-info/
+*.db
+*.pyc
+.DS_Store
+__pycache__/
+env/
+var/
+*.swp
+*.swo
+json1.dylib.dSYM/
+*.swm
+*.swn
+node_modules/
+bundle.js
