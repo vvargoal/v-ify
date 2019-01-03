@@ -20,7 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'gklld1rwib!_b6u+267dj4rk7x)pw%ph72_#g5$h%5-0lrk8b2'
+with open(os.getenv('SECRET_KEY_FILE', 'secret_key.txt')) as f:
+    SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -75,16 +76,19 @@ WSGI_APPLICATION = 'vrank.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+with open(os.getenv('DB_PASSWORD_FILE', 'db_password.txt')) as f:
+    DB_PASSWORD = f.read().strip()
+
+# environ variables set in docker-compose.yml
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db', # set in docker-compose.yml
-        'PORT': 5432 # default postgres port
+        'NAME': os.getenv('DB_USER', 'postgres'),
+        'USER': DB_PASSWORD,
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432') # default postgres port
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

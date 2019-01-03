@@ -6,13 +6,24 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
   web:
-    build: .
+    build: ./vrank
     command: gunicorn vrank.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/code
         # - ./app/:/usr/src/app/
       - static_volume:/code/static
       - media_volume:/code/mediafiles
+    environment:
+      SECRET_KEY_FILE: /run/secrets/secret_key
+      DB_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      DB_USER: postgres
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - secret_key
+      - db_root_password
+      - db_password
     ports:
       - 8000
     depends_on:
@@ -26,6 +37,14 @@ services:
       - 1337:80
     depends_on:
       - web
+
+secrets:
+   db_password:
+     file: db_password.txt
+   db_root_password:
+     file: db_root_password.txt
+   secret_key:
+     file: secret_key.txt
 
 volumes:
   postgres_data:

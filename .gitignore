@@ -14,3 +14,11 @@ json1.dylib.dSYM/
 *.swn
 node_modules/
 bundle.js
+secret_key.text
+db_password.text
+db_root_password.text
+db_password.txt
+db_root_password.txt
+secret_key.txt
+progress
+history.txt
