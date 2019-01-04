@@ -15,6 +15,7 @@ services:
       - media_volume:/code/mediafiles
     environment:
       SECRET_KEY_FILE: /run/secrets/secret_key
+      SPOTIFY_CLIENT_SECRET_FILE: /run/secrets/spotify_client_secret
       DB_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
       DB_USER: postgres
       DB_HOST: db
@@ -22,6 +23,7 @@ services:
       DB_PASSWORD_FILE: /run/secrets/db_password
     secrets:
       - secret_key
+      - spotify_client_secret
       - db_root_password
       - db_password
     ports:
@@ -45,6 +47,8 @@ secrets:
      file: db_root_password.txt
    secret_key:
      file: secret_key.txt
+   spotify_client_secret:
+     file: spotify_client_secret.txt
 
 volumes:
   postgres_data:

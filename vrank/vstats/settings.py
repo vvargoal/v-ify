@@ -20,10 +20,17 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'p983)tu9qqtzwo1@(rc!_h#@dno_+u=3&o-6=pg1i28y2j^s+o'
+with open(os.getenv('SECRET_KEY_FILE', 'secret_key.txt')) as f:
+    SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+
+with open(os.getenv('SPOTIFY_CLIENT_SECRET_FILE', 'spotify_client_secret.txt')) as f:
+    SPOTIFY_CLIENT_SECRET = f.read().strip()
+
+SPOTIFY_CLIENT_ID = 'c69f3282c595434aafb11381c0a93c02'
+SPOTIFY_REDIRECT_URI = 'http://localhost:1337/callback/'
 
 ALLOWED_HOSTS = []
 
