@@ -7,9 +7,10 @@ import requests
 
 from . import settings
 
-@login_required
+# todo this is broken
+# @login_required
 def index(request):
-    return HttpResponse("Hello, world. You're at the vstats index.")
+    return HttpResponse(f"Hello, world. You're at the vstats index. {request.session['access_token']}")
 
 def login(request):
     scope = 'user-read-email user-top-read user-read-recently-played playlist-modify-private'
@@ -20,8 +21,7 @@ def login(request):
               'client_id': settings.SPOTIFY_CLIENT_ID,
               'scope': scope,
               'redirect_uri': settings.SPOTIFY_REDIRECT_URI,
-              'state': request.session['state']
-             }
+              'state': request.session['state']}
     req = requests.get(url_endpoint, params=params)
     return redirect(req.url)
 
@@ -45,7 +45,7 @@ def callback(request):
         return HttpResponse(f"Invalid login")
 
     code = request.GET.get('code')
-    print(code, state)
+    # print(code, state)
     url = 'https://accounts.spotify.com/api/token'
     data = {'code': code,
             'redirect_uri': settings.SPOTIFY_REDIRECT_URI,
