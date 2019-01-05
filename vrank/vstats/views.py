@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.utils.crypto import get_random_string
+from django.template import Context, Template
+from django.template.loader import get_template
 import requests
 
 from . import settings
@@ -10,12 +12,20 @@ from . import settings
 # todo this is broken
 # @login_required
 def index(request):
-    return HttpResponse(f"Hello, world. You're at the vstats index. {request.session['access_token']}")
+    """Display useful info."""
+    # check if authcode in session
+    # check if authcode is active
+    if 'access_token' in request.session:
+        return HttpResponse(f"You're at the vstats index. {request.session['access_token']}")
+    template = get_template('index.html')
+    context = {"logname": "Adrian"}
+    return HttpResponse(template.render(context, request))
 
 def login(request):
+    """Redirect to spotify for authentication."""
     scope = 'user-read-email user-top-read user-read-recently-played playlist-modify-private'
     request.session['state'] = get_random_string(length=16)
-    auth_state = 'spotify_auth_state'
+    request.session['auth_state'] = 'spotify_auth_state'
     url_endpoint = 'https://accounts.spotify.com/authorize?'
     params = {'response_type': 'code',
               'client_id': settings.SPOTIFY_CLIENT_ID,
@@ -26,11 +36,12 @@ def login(request):
     return redirect(req.url)
 
 def logout_view(request):
+    """Logout of session."""
     logout(request)
     return HttpResponse("You have been logged out.")
 
 def callback(request):
-    """Get access token from spotify and redirect."""
+    """Parse authentication from spotify and generate auth token."""
     # validate code, state
     # create user if needed and login
 
