@@ -45,6 +45,7 @@ def callback(request):
         return HttpResponse(f"Invalid login")
 
     code = request.GET.get('code')
+    print(code, state)
     url = 'https://accounts.spotify.com/api/token'
     data = {'code': code,
             'redirect_uri': settings.SPOTIFY_REDIRECT_URI,
@@ -53,11 +54,14 @@ def callback(request):
             'client_secret': settings.SPOTIFY_CLIENT_SECRET}
 
     req = requests.post(url, data=data)
-    # TODO check response code
+
     try:
         response_data = req.json()
     except ValueError as err:
         return HttpResponse(f"Invalid login: {err}")
+
+    if req.status_code != 200:
+        return HttpResponse(f"Invalid login: {response_data}")
 
     request.session['access_token'] = response_data['access_token']
     request.session['refresh_token'] = response_data['refresh_token']
