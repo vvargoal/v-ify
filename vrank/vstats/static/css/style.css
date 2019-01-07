@@ -1,0 +1,17 @@
+#explorer {
+    text-align: right;
+} 
+.post_created {
+    text-align: right;
+}
+.follow_user {
+    float: left;
+}
+.follow_button {
+    float: right;
+}
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
