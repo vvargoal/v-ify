@@ -3,11 +3,12 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.utils.crypto import get_random_string
-from django.template import Context, Template
 from django.template.loader import get_template
 import requests
 
 from . import settings
+
+SPOTIFY_API_URL = 'https://api.spotify.com/v1/'
 
 # todo this is broken
 # @login_required
@@ -15,10 +16,11 @@ def index(request):
     """Display useful info."""
     # check if authcode in session
     # check if authcode is active
-    if 'access_token' in request.session:
-        return HttpResponse(f"You're at the vstats index. {request.session['access_token']}")
+    # if 'access_token' in request.session:
+    #     return HttpResponse(f"You're at the vstats index. {request.session['access_token']}")
     template = get_template('index.html')
-    context = {"logname": "Adrian"}
+    # TODO is this a good idea
+    context = {**request.session}
     return HttpResponse(template.render(context, request))
 
 def login(request):
@@ -63,23 +65,57 @@ def callback(request):
             'grant_type': 'authorization_code',
             'client_id': settings.SPOTIFY_CLIENT_ID,
             'client_secret': settings.SPOTIFY_CLIENT_SECRET}
-
-    req = requests.post(url, data=data)
-
+    response = requests.post(url, data=data)
     try:
-        response_data = req.json()
+        response_data = response.json()
     except ValueError as err:
         return HttpResponse(f"Invalid login: {err}")
 
-    if req.status_code != 200:
+    if response.status_code != 200:
         return HttpResponse(f"Invalid login: {response_data}")
 
     request.session['access_token'] = response_data['access_token']
     request.session['refresh_token'] = response_data['refresh_token']
 
-    # redirect_url = request.GET.get('')
+    get_spotify_user_info(request)
 
     return redirect('index')
+
+def get_from_spotify(request, endpoint, data=None):
+    """Returns spotify data in json format."""
+    url = SPOTIFY_API_URL + endpoint 
+    headers = {'Accept': 'application/json',
+               'Content-Type': 'application/json',
+               'Authorization': f"Bearer {request.session['access_token']}"}
+    response = requests.get(url, headers=headers, data=data)
+
+    if response.status_code != 200:
+        pass
+
+    try:
+        response_data = response.json()
+    except ValueError as err:
+        pass
+
+    return response_data
+
+def get_spotify_user_info(request):
+    """
+        Fills in user info into requests session.
+        Requires auth_token is valid.
+    """
+    response_data = get_from_spotify(request, 'me')
+
+    request.session['display_name'] = response_data['display_name']
+    request.session['email'] = response_data['email']
+    request.session['spotify_id'] = response_data['id']
+    request.session['image_url'] = response_data['images'][0]['url']
+
+def get_top(request):
+    pass
+
+def get_top_tracks(request):
+    pass
 
 def refresh_token(request):
     """Refresh access token with spotify."""

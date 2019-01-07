@@ -1,26 +1,18 @@
-<html>
-  <head>
-  ...
-  <style type="text/css">
-  #login {
-    display: none;
-  }
+{% extends "base.html" %}
+{% block body %}
+<div>
+  <div id="login">
+    <h1>First, log in to spotify</h1>
+    <a href="/login">Log in</a>
+  </div>
+  <div id="loggedin">
+  </div>
+</div>
 
-  #loggedin {
-    display: none;
-  }
-  ...
-</style>
-<body>
- <div>
-    <div id="login">
-     <h1>First, log in to spotify</h1>
-     <a href="/login">Log in</a>
-    </div>
-    <div id="loggedin">
-    </div>
- </div>
- <p>{{Vaughn}}
+<p>Logged in: {{display_name}}
+<p>Id: {{spotify_id}}
+<p>Email: {{email}}
+<p>Image: {{image_url}}
 
 <!-- 
  <script id="loggedin-template" type="text/x-handlebars-template">
@@ -35,7 +27,6 @@
      <dt>Profile Image</dt><dd></dd>
     </dl>
     <p><a href="/">Log in again</a></p>
--->
  </script>
-</body>
-</html>
+-->
+{% endblock %}
