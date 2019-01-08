@@ -5,8 +5,12 @@ services:
     image: postgres:11.1-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    environment: 
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
   web:
-    build: ./vstats
+    build: ./app
     command: gunicorn vstats.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - ./app/:/code
@@ -17,6 +21,7 @@ services:
       SECRET_KEY_FILE: /run/secrets/secret_key
       SPOTIFY_CLIENT_SECRET_FILE: /run/secrets/spotify_client_secret
       DB_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      DB_NAME: postgres
       DB_USER: postgres
       DB_HOST: db
       DB_PORT: 5432
