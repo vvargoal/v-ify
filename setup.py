@@ -1,11 +1,11 @@
-"""vrank package configuration."""
+"""vstats package configuration."""
 
 from setuptools import setup
 
 setup(
-    name='vrank',
+    name='vstats',
     version='0.1.0',
-    packages=['vrank'],
+    packages=['vstats'],
     include_package_data=True,
     install_requires=[
         'django',

@@ -15,13 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth import views as auth_views
 
 from vrank.upload.views import image_upload
 
 urlpatterns = [
-    path('', include('vrank.vstats.urls')),
+    path('', views.index, name='index'),
     path('upload/', image_upload, name='upload'),
-    path('admin/', admin.site.urls),
-    path('accounts/login/', auth_views.LoginView.as_view()),
 ]

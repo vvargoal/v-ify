@@ -6,10 +6,10 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
   web:
-    build: ./vrank
-    command: gunicorn vrank.wsgi:application --bind 0.0.0.0:8000
+    build: ./vstats
+    command: gunicorn vstats.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - .:/code
+      - ./app/:/code
         # - ./app/:/usr/src/app/
       - static_volume:/code/static
       - media_volume:/code/mediafiles

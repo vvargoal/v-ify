@@ -16,7 +16,7 @@ RUN pip install -r requirements.txt
 # docker-compose up -d --no-deps --build web
 FROM base
 # Set the working directory to /app
-# WORKDIR /code
+WORKDIR /code
 # Copy the current directory contents into the container at /app
 COPY . /code
 # Make port 80 available to the world outside this container
@@ -26,4 +26,4 @@ EXPOSE 8000
 # ENV NAME World
 # Run app.py when the container launches
 # CMD ["python", "manage.py runserver"]
-ENTRYPOINT ["/code/vrank/entrypoint.sh"]
+ENTRYPOINT ["/code/entrypoint.sh"]
