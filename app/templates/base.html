@@ -9,22 +9,26 @@
   {% endblock %}
 </head>
 <body>
-  <div id="title-bar">
+  <header class="header">
     <div class="clearfix">
-      <div id="title">
+      <div class="title">
         <a href="/">spoti-v</a>
       </div>
       {% if spotify_id %}
-      <div id="login-bar">
-        <div class="user-name">{{ display_name }}</div>
-        <img src="{{ image_url }}"/>
-        <div class="logout">
-          <a style="padding-left: 2px" href="/accounts/logout"> Logout</a>
+      <div class="login-box">
+        <div class="login-left">
+          <div class="user-name">{{ display_name }}</div>
+          <div class="logout">
+            <a style="padding-left: 2px" href="/accounts/logout"> Logout</a>
+          </div>
+        </div>
+        <div class="login-right">
+          <img src="{{ image_url }}"/>
         </div>
       </div>
       {% endif %}
     </div>
-  </div>
+  </header>
   {% block body %}
   {% endblock %}
 </body>
