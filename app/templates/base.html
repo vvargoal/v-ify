@@ -1,19 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <style type="text/css">
-  #login {
-    display: none;
-  }
-
-  #loggedin {
-    display: none;
-  }
-  </style>
-  <link rel="icon" href="/static/images/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+  {% load static %}
+  <link rel="shortcut icon" href="{% static "images/favicon.ico" %}" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
   {% block head %}
-  <title>v-statify</title>
+  <title>spoti-v</title>
   <div align='left'>
       <a href="/">spoti-v</a>
   </div>

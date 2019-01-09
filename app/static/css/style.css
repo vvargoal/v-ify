@@ -1,6 +1,20 @@
 #explorer {
     text-align: right;
 } 
+.login-left{
+    text-align: left;
+} 
+.login-right{
+    text-align: right;
+} 
+
+#login {
+  display: none;
+}
+#loggedin {
+  display: none;
+}
+
 .post_created {
     text-align: right;
 }
