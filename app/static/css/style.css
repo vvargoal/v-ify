@@ -1,19 +1,29 @@
-#explorer {
-    text-align: right;
+#title {
+  float: left;
+}
+#login-bar{
+  float: right;
 } 
-.login-left{
-    text-align: left;
-} 
-.login-right{
-    text-align: right;
-} 
+#title-bar {
+  margin-bottom: 30px;
+}
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
 
+/*
 #login {
   display: none;
 }
 #loggedin {
   display: none;
 }
+*/
 
 .post_created {
     text-align: right;
@@ -23,9 +33,4 @@
 }
 .follow_button {
     float: right;
-}
-.clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
 }
