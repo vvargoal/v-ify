@@ -6,25 +6,25 @@
   <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
   {% block head %}
   <title>spoti-v</title>
-  <div align='left'>
-      <a href="/">spoti-v</a>
-  </div>
-  {% if spotify_id %}
-  <div class="login">
-    <div class="login-left">
-      <div class="user-name">{{ display_name }}</div>
-      <div class="logout">
-        <a style="padding-left: 2px" href="/accounts/logout"> Logout</a>
-      </div>
-    </div>
-    <div class="login-right">
-      <img src="{{ image_url }}"/>
-    </div>
-  </div>
-  {% endif %}
   {% endblock %}
 </head>
 <body>
+  <div id="title-bar">
+    <div class="clearfix">
+      <div id="title">
+        <a href="/">spoti-v</a>
+      </div>
+      {% if spotify_id %}
+      <div id="login-bar">
+        <div class="user-name">{{ display_name }}</div>
+        <img src="{{ image_url }}"/>
+        <div class="logout">
+          <a style="padding-left: 2px" href="/accounts/logout"> Logout</a>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
   {% block body %}
   {% endblock %}
 </body>
