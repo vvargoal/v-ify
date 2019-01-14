@@ -3,10 +3,24 @@
 
 <section id="user-profile">
   {% if spotify_id %}
-  <p>Logged in: {{display_name}}
-  <p>Id: {{spotify_id}}
-  <p>Email: {{email}}
-  <p>Image: {{image_url}}
+  <p>Logged in: {{ display_name }}
+  <p>Id: {{ spotify_id }}
+  <p>Email: {{ email }}
+  <p>Image: {{ image_url }}
+  <div id="top-tracks">
+    <h1>Top Tracks</h1>
+    <ul>
+    {% for item in items %}
+    <!-- Need to split up artists and link individually -->
+      <li><a href="{{ item.uri }}">{{ item.name }}</a><span> - </span>
+          {% for artist in item.artists %}
+          <span>, </span><a href="{{ artist.uri }}">{{ artist.name }}</a>
+          {% endfor %}
+    {% endfor %}
+    </ul>
+  </div>
+
+
   {% else %}
   <div>
     <div id="login">

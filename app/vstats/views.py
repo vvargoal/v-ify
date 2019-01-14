@@ -4,9 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.utils.crypto import get_random_string
 from django.template.loader import get_template
+import logging
 import requests
-
 from . import settings
+
+logger = logging.getLogger(__name__)
 
 SPOTIFY_API_URL = 'https://api.spotify.com/v1/'
 
@@ -18,16 +20,29 @@ def index(request):
     # check if authcode is active
     # if 'access_token' in request.session:
     #     return HttpResponse(f"You're at the vstats index. {request.session['access_token']}")
+
+
+
+    #TODO remove
+    data = get_top_tracks(request)
     template = get_template('index.html')
-    # TODO is this a good idea
-    context = {**request.session}
+    # TODO is this a good idea? probably not
+    # data = {'items': 
+    #         [{'artists': [artist['name'] for artist in item['artists']], 
+    #           'name': item['name'], 
+    #           'uri': item['uri']} 
+    #           for item in data['items']]}
+    print("Data: ", data['items'][0])
+    context = {**request.session, **data}
     return HttpResponse(template.render(context, request))
 
 def login(request):
     """Redirect to spotify for authentication."""
+    # TODO add 'streaming' for web SDK playback
     scope = 'user-read-email user-top-read user-read-recently-played playlist-modify-private'
     request.session['state'] = get_random_string(length=16)
     request.session['auth_state'] = 'spotify_auth_state'
+    # TODO combine with get_from_spotify
     url_endpoint = 'https://accounts.spotify.com/authorize?'
     params = {'response_type': 'code',
               'client_id': settings.SPOTIFY_CLIENT_ID,
@@ -81,21 +96,26 @@ def callback(request):
 
     return redirect('index')
 
-def get_from_spotify(request, endpoint, data=None):
+def get_from_spotify(request, endpoint, params=None, data=None):
     """Returns spotify data in json format."""
+    # TODO if not logged in throw error
+
     url = SPOTIFY_API_URL + endpoint 
     headers = {'Accept': 'application/json',
                'Content-Type': 'application/json',
                'Authorization': f"Bearer {request.session['access_token']}"}
-    response = requests.get(url, headers=headers, data=data)
+    response = requests.get(url, headers=headers, params=params, data=data)
+    print("Spotify API call: ", url, headers, params, data)
 
+    # TODO
     if response.status_code != 200:
-        pass
+        print("Error: ", response.text)
 
     try:
         response_data = response.json()
     except ValueError as err:
-        pass
+        # TODO 
+        print("Error: ", response.text)
 
     return response_data
 
@@ -115,7 +135,14 @@ def get_top(request):
     pass
 
 def get_top_tracks(request):
-    pass
+    """
+    limit	Optional. The number of entities to return. Default: 20. Minimum: 1. Maximum: 50. For example: limit=2
+    offset	Optional. The index of the first entity to return. Default: 0 (i.e., the first track). Use with limit to get the next set of entities.
+    time_range	Optional. Over what time frame the affinities are computed. Valid values: long_term (calculated from several years of data and including all new data as it becomes available), medium_term (approximately last 6 months), short_term (approximately last 4 weeks). Default: medium_term.
+    """
+    params = {'limit': 50, 'offset': 0, 'time_range': 'short_term'}
+    response_data = get_from_spotify(request, 'me/top/tracks', params)
+    return response_data
 
 def refresh_token(request):
     """Refresh access token with spotify."""

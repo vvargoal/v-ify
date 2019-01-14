@@ -17,6 +17,6 @@ setup(
         'sh',
         'selenium',
         'requests',
-        'arrow'
+        'arrow',
     ],
 )
