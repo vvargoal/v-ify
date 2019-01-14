@@ -5,7 +5,7 @@ from setuptools import setup
 setup(
     name='vstats',
     version='0.1.0',
-    packages=['vstats'],
+    packages=['app'],
     include_package_data=True,
     install_requires=[
         'django',

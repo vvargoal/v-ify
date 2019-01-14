@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block body %}
+
+<div id="reactEntry">
+  Loading ...
+</div>
+<!-- Load JavaScript -->
+{% load static %}
+<script type="text/javascript" src="{{ static "js/bundle.js" }}"></script>
+
+{% endblock %}
+
