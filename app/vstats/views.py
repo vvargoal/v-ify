@@ -146,3 +146,9 @@ def get_top_tracks(request):
 
 def refresh_token(request):
     """Refresh access token with spotify."""
+
+def javascript_test(request):
+    """Test the js rendering."""
+    template = get_template('js.html')
+    context = {**request.session}
+    return HttpResponse(template.render(context, request))

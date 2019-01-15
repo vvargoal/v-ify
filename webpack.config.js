@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   // mode: 'production',
-  entry: './app/js/main.jsx',
+  entry: './js/main.jsx',
   output: {
     path: path.join(__dirname, '/app/static/js/'),
     filename: 'bundle.js',
@@ -10,13 +10,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.(js|jsx)$/,
         include: [
-          path.resolve(__dirname, 'app/js'),
+          path.resolve(__dirname, 'js'),
         ],
         loader: 'babel-loader',
         options: {
-          presets: ['env'],
+          presets: ['env', 'react'],
         },
       },
     ],

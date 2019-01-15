@@ -25,5 +25,6 @@ urlpatterns = [
     path('accounts/login/', views.login, name='login'),
     path('accounts/login/', auth_views.LoginView.as_view()), # is this needed?
     path('accounts/logout/', views.logout_view, name='logout_view'),
+    path('javascript_test/', views.javascript_test, name='javascript_test'),
     path('admin/', admin.site.urls),
 ]
