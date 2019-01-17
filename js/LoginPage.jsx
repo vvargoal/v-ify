@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import queryString from 'query-string';
 import uuidv4 from 'uuid/v4';
+import AdjustablePlaylist from './AdjustablePlaylist';
 
 const stateKey = 'spotify_auth_state';
 
@@ -12,7 +13,7 @@ class LoginPage extends React.Component {
     console.log(hashParams);
 
     // Check if redirected by spotify auth request
-    // If so, save access_token. 
+    // If so, save access_token.
     // Existence will be checked by render to bypass login button.
     if ('access_token' in hashParams && 'state' in hashParams) {
       if (hashParams.state !== localStorage.getItem(stateKey)) {
@@ -22,8 +23,11 @@ class LoginPage extends React.Component {
         access_token: hashParams.access_token,
       };
       history.pushState('', document.title, window.location.pathname);
+    // TODO see if this actually makes sense anymore
     } else if (PerformanceNavigationTiming.type === 'back_forward') { // eslint-disable-line no-undef
       this.state = history.state;
+    } else {
+      this.state = {};
     }
 
     this.handleLogin = this.handleLogin.bind(this);
@@ -34,6 +38,8 @@ class LoginPage extends React.Component {
 
   handleLogin() {
     // Authenticate to spotify with "Implicit Grant flow"
+    // Spotify will redirect back to this URI, which will
+    // be detected and handled in the constructor.
     localStorage.setItem(stateKey, uuidv4());
     const params = {
       response_type: this.props.response_type,
@@ -47,8 +53,8 @@ class LoginPage extends React.Component {
   }
 
   render() {
-    if ('access_token' in this.state.hashParams) {
-      return ();
+    if ('access_token' in this.state) {
+      return <AdjustablePlaylist access_token={this.state.access_token} />;
     }
     return (
       <div className="container">
