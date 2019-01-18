@@ -28,6 +28,7 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-infinite-scroll-component": "^2.4.0",
+    "react-table": "^6.8.6",
     "uuid": "^3.3.2"
   }
 }

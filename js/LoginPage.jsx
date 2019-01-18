@@ -22,6 +22,7 @@ class LoginPage extends React.Component {
       this.state = {
         access_token: hashParams.access_token,
       };
+      // Remove spotify auth data from location
       history.pushState('', document.title, window.location.pathname);
     // TODO see if this actually makes sense anymore
     } else if (PerformanceNavigationTiming.type === 'back_forward') { // eslint-disable-line no-undef
@@ -54,7 +55,12 @@ class LoginPage extends React.Component {
 
   render() {
     if ('access_token' in this.state) {
-      return <AdjustablePlaylist access_token={this.state.access_token} />;
+      return (
+        <AdjustablePlaylist 
+          access_token={this.state.access_token} 
+
+        />
+      );
     }
     return (
       <div className="container">
