@@ -32,14 +32,33 @@ class Playlist extends React.Component {
   }
 
   render() {
-    if (this.state.items.length > 0) {
-      return (
-        <ul>
-          {this.state.items.map(item => <SongRow {...item} />)}
-        </ul>
-      );
-    }
-    return ('No data to display');
+    console.log("This is data: ", this.state.items);
+    return (
+      <div>
+        <ReactTable
+          data={this.state.items}
+          columns={[
+            {
+              Header: 'Playlist',
+              columns: [
+                {
+                  Header: 'Title',
+                  accessor: 'name',
+                },
+                {
+                  Header: 'Artist',
+                  id: 'artist',
+                  accessor: d => d.artists[0].name,
+                },
+              ],
+            },
+          ]}
+          defaultPageSize={50}
+          className="-striped -highlight"
+        />
+        <br />
+      </div>
+    );
   }
 }
 
