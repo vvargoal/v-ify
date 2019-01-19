@@ -3,10 +3,11 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import PropTypes from 'prop-types';
 import SongRow from './SongRow';
+import RangeSelector from './RangeSelector';
 
 // Get access_token from super
-// Fetch songs??
-// Songrow will display songs
+// Fetch songs
+// Display songs in react-table
 class Playlist extends React.Component {
   constructor(props) {
     super(props);
@@ -32,28 +33,39 @@ class Playlist extends React.Component {
   }
 
   render() {
-    console.log("This is data: ", this.state.items);
     return (
       <div>
         <ReactTable
           data={this.state.items}
+          showPagination={false}
           columns={[
             {
-              Header: 'Playlist',
+              Header: <RangeSelector />,
               columns: [
                 {
                   Header: 'Title',
-                  accessor: 'name',
+                  accessor: 'name', // Needed for sorting
+                  Cell: d => <a href={d.original.uri}>{d.original.name}</a>,
                 },
                 {
                   Header: 'Artist',
                   id: 'artist',
-                  accessor: d => d.artists[0].name,
+                  accessor: d => d.artists[0].name, // TODO this could break 
+                  // Display artists as comma seperated links to uri
+                  Cell: d => {
+                    const output = d.original.artists.map((artist,i) => 
+                      <React.Fragment key={i}>
+                        <a href={artist.uri}>{artist.name}</a>
+                        { d.original.artists.length - 1 === i ? '' : ', ' } 
+                      </React.Fragment>
+                    );
+                    return output;
+                  },
                 },
               ],
             },
           ]}
-          defaultPageSize={50}
+          pageSize={this.state.items.length}
           className="-striped -highlight"
         />
         <br />
