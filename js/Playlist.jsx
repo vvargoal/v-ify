@@ -5,6 +5,12 @@ import PropTypes from 'prop-types';
 import SongRow from './SongRow';
 import RangeSelector from './RangeSelector';
 
+const options = [
+  { value: 'short_term', label: 'Last month' },
+  { value: 'medium_term', label: 'Last 6 months' },
+  { value: 'long_term', label: 'Last year' }
+]
+
 // Get access_token from super
 // Fetch songs
 // Display songs in react-table
@@ -13,12 +19,20 @@ class Playlist extends React.Component {
     super(props);
     this.state = {
       items: [],
+      time_range: options[1].value,
     };
+
+    this.fetchTopTracks = this.fetchTopTracks.bind(this);
+    this.handleTimeChange = this.handleTimeChange.bind(this);
   }
 
   componentDidMount() {
     // TODO pass down url
     // TODO send time_range parameter
+    this.fetchTopTracks();
+  }
+
+  fetchTopTracks() {
     fetch(this.props.endpoint, {
       headers: { Authorization: `Bearer ${this.props.access_token}` },
     })
@@ -32,6 +46,11 @@ class Playlist extends React.Component {
       .catch(error => console.log(error)); // TODO catch invalid credential
   }
 
+  handleTimeChange(value) {
+    // TODO setState
+    this.fetchTopTracks()
+  }
+
   render() {
     return (
       <div>
@@ -40,7 +59,12 @@ class Playlist extends React.Component {
           showPagination={false}
           columns={[
             {
-              Header: <RangeSelector />,
+              Header: 
+                <RangeSelector 
+                  options={options} 
+                  defaultOption={options[1]}
+                  onClick={this.handleTimeChange}
+                />,
               columns: [
                 {
                   Header: 'Title',

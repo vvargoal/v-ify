@@ -1,7 +1,8 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
-  // mode: 'production',
+  mode: 'development',
   entry: './js/main.jsx',
   output: {
     path: path.join(__dirname, '/app/static/js/'),
@@ -28,4 +29,11 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.css'],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('development'),
+      },
+    }),
+  ],
 };

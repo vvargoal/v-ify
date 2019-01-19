@@ -1,24 +1,31 @@
 import React from 'react';
 
-const OPTIONS = ['short_term', 'medium_term', 'long_term'];
 
 class RangeSelector extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: OPTIONS[1] } 
+    this.state = {
+      value: this.props.defaultOption.value,
+    }; 
 
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange() {
-    this.setState({ value: event.target.value });
+    this.setState({ 
+      value: event.target.value,
+    });
+    this.props.onChange(event.target.value);
   }
 
   render() {
-    console.log(OPTIONS);
+    console.log(this.props.options);
+    console.log(this.state.value);
     return (
       <select value={this.state.value} onChange={this.handleChange}>
-        { OPTIONS.map(option => <option value={option}>{option}</option>) }
+        { this.props.options.map((option) => 
+            <option value={option.value}>{option.label}</option>
+          )}
       </select>
     );
   }
