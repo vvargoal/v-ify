@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import queryString from 'query-string';
 import uuidv4 from 'uuid/v4';
+import queryString from 'query-string';
 import AdjustablePlaylist from './AdjustablePlaylist';
+import createQueryUrl from './Utilities';
 
 const stateKey = 'spotify_auth_state';
 
@@ -49,16 +50,15 @@ class LoginPage extends React.Component {
       redirect_uri: this.props.redirect_uri,
       state: localStorage.getItem(stateKey),
     };
-    const url = `${this.props.spotify_authorize_uri}?${queryString.stringify(params)}`;
+    const url = createQueryUrl(this.props.spotify_authorize_uri, params);
     window.location.replace(url);
   }
 
   render() {
     if ('access_token' in this.state) {
       return (
-        <AdjustablePlaylist 
-          access_token={this.state.access_token} 
-
+        <AdjustablePlaylist
+          access_token={this.state.access_token}
         />
       );
     }

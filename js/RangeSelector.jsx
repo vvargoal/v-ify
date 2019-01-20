@@ -19,12 +19,10 @@ class RangeSelector extends React.Component {
   }
 
   render() {
-    console.log(this.props.options);
-    console.log(this.state.value);
     return (
       <select value={this.state.value} onChange={this.handleChange}>
         { this.props.options.map((option) => 
-            <option value={option.value}>{option.label}</option>
+            <option key={option.value} value={option.value}>{option.label}</option>
           )}
       </select>
     );
