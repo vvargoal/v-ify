@@ -6,10 +6,16 @@ import SongRow from './SongRow';
 import RangeSelector from './RangeSelector';
 import createQueryUrl from './Utilities';
 
-const options = [
+const time_range_options = [
   { value: 'short_term', label: 'Last month' },
   { value: 'medium_term', label: 'Last 6 months' },
   { value: 'long_term', label: 'Last year' }
+]
+
+const limit_options = [
+  { value: 10, label: 'Top 10' },
+  { value: 20, label: 'Top 20' },
+  { value: 50, label: 'Top 50' }
 ]
 
 // Get access_token from super
@@ -20,10 +26,13 @@ class Playlist extends React.Component {
     super(props);
     this.state = {
       items: [],
+      time_range: time_range_options[1].value,
+      limit: 20,
     };
 
     this.fetchTopTracks = this.fetchTopTracks.bind(this);
     this.handleTimeChange = this.handleTimeChange.bind(this);
+    this.handleLimitChange = this.handleLimitChange.bind(this);
   }
 
   componentDidMount() {
@@ -32,7 +41,11 @@ class Playlist extends React.Component {
     this.fetchTopTracks();
   }
 
-  fetchTopTracks(params={ time_range: options[1].value }) {
+  fetchTopTracks() {
+    const params = { 
+      time_range: this.state.time_range, 
+      limit: this.state.limit 
+    };
     fetch(createQueryUrl(this.props.endpoint, params), {
       headers: { Authorization: `Bearer ${this.props.access_token}` },
     })
@@ -44,16 +57,23 @@ class Playlist extends React.Component {
         this.setState(data);
       })
       .catch(error => console.log(error)); // TODO catch invalid credential
-    console.log('State was set');
   }
 
   handleTimeChange(value) {
-    // TODO this isn't great
-    console.log('Fetching: ', value);
-    this.fetchTopTracks({ time_range: value });
+    // Function version of setState ensures that state is 
+    // set to the correct value before fetchTopTracks call
+    // Otherwise the call will use state state values, as 
+    // setState is async
+    this.setState({ time_range: value }, this.fetchTopTracks);
+  }
+
+  handleLimitChange(value) {
+    // See handleTimeChange
+    this.setState({ limit: value }, this.fetchTopTracks);
   }
 
   render() {
+    console.log('rendered state: ', this.state);
     return (
       <div>
         <ReactTable
@@ -62,11 +82,19 @@ class Playlist extends React.Component {
           columns={[
             {
               Header: 
-                <RangeSelector 
-                  options={options} 
-                  defaultOption={options[1]}
-                  onChange={this.handleTimeChange}
-                />,
+                <div className="Playlist-selectors">
+                  <RangeSelector 
+                    options={time_range_options} 
+                    value={this.state.time_range}
+                    onChange={this.handleTimeChange}
+                  />
+                  <RangeSelector 
+                    options={limit_options} 
+                    value={this.state.limit}
+                    onChange={this.handleLimitChange}
+                  />
+                  <button type="button">Save Playlist</button>
+                </div>,
               columns: [
                 {
                   Header: 'Title',
