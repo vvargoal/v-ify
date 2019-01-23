@@ -31,7 +31,7 @@ class Feed extends React.Component {
     const params = {
       response_type: this.props.response_type,
       client_id: this.props.client_id,
-      scope: this.props.client_scope,
+      scope: this.props.scope,
       redirect_uri: this.props.redirect_uri,
       state: localStorage.getItem(stateKey),
     };
@@ -40,12 +40,12 @@ class Feed extends React.Component {
   }
 
   render() {
-    return (<p>Look I rendered a UUID: {this.props.client_scope}</p>);
+    return (<p>Look I rendered a UUID: {this.props.scope}</p>);
   }
 }
 
 Feed.propTypes = {
-  client_scope: PropTypes.string.isRequired,
+  scope: PropTypes.string.isRequired,
   client_id: PropTypes.string.isRequired,
   response_type: PropTypes.string.isRequired,
   redirect_uri: PropTypes.string.isRequired,

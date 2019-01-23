@@ -1,4 +1,5 @@
 module.exports = {
+  "parser": "babel-eslint",
   "extends": "airbnb",
   "plugins": [
     "react",
@@ -7,5 +8,8 @@ module.exports = {
   ],
   "env": {
       "browser": true,
+  },
+  "rules": {
+    "camelcase": "warn",
   },
 };

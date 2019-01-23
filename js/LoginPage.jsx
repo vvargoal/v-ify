@@ -10,7 +10,7 @@ const stateKey = 'spotify_auth_state';
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
-    const hashParams = queryString.parse(location.hash);
+    const hashParams = queryString.parse(window.location.hash);
     console.log(hashParams);
 
     // Check if redirected by spotify auth request
@@ -24,41 +24,79 @@ class LoginPage extends React.Component {
         access_token: hashParams.access_token,
       };
       // Remove spotify auth data from location
-      history.pushState('', document.title, window.location.pathname);
+      window.history.pushState('', document.title, window.location.pathname);
+      this.getSpotifyUserInfo();
     // TODO see if this actually makes sense anymore
     } else if (PerformanceNavigationTiming.type === 'back_forward') { // eslint-disable-line no-undef
-      this.state = history.state;
+      this.state = window.history.state;
     } else {
       this.state = {};
     }
 
     this.handleLogin = this.handleLogin.bind(this);
+    this.getSpotifyUserInfo = this.getSpotifyUserInfo.bind(this);
   }
 
   componentDidMount() {
+  }
+
+  getSpotifyUserInfo() {
+    const endpoint = 'https://api.spotify.com/v1/me';
+    const { access_token } = this.state;
+    // TODO make this a seperate function
+    // response and data handlers?
+    fetch(endpoint, {
+      headers: { Authorization: `Bearer ${access_token}` },
+    })
+      .then((response) => {
+        if (!response.ok) throw Error(response.statusText);
+        return response.json();
+      })
+      .then((data) => {
+        const { id, display_name, images } = data;
+        this.setState({ id, display_name, images });
+        console.log('User data: ', data.id);
+      })
+      .catch(error => console.log(error));
   }
 
   handleLogin() {
     // Authenticate to spotify with "Implicit Grant flow"
     // Spotify will redirect back to this URI, which will
     // be detected and handled in the constructor.
+
+    // stateKey used for CSRF prevention
     localStorage.setItem(stateKey, uuidv4());
+
+    const {
+      response_type,
+      client_id,
+      scope,
+      redirect_uri,
+      spotify_authorize_uri,
+    } = this.props;
+
     const params = {
-      response_type: this.props.response_type,
-      client_id: this.props.client_id,
-      scope: this.props.client_scope,
-      redirect_uri: this.props.redirect_uri,
+      response_type,
+      client_id,
+      scope,
+      redirect_uri,
       state: localStorage.getItem(stateKey),
     };
-    const url = createQueryUrl(this.props.spotify_authorize_uri, params);
+
+    const url = createQueryUrl(spotify_authorize_uri, params);
     window.location.replace(url);
   }
 
   render() {
     if ('access_token' in this.state) {
+      const { access_token, id, display_name, images } = this.state;
       return (
         <AdjustablePlaylist
-          access_token={this.state.access_token}
+          access_token={access_token}
+          id={id}
+          display_name={display_name}
+          images={images}
         />
       );
     }
@@ -78,7 +116,7 @@ class LoginPage extends React.Component {
 }
 
 LoginPage.propTypes = {
-  client_scope: PropTypes.string.isRequired,
+  scope: PropTypes.string.isRequired,
   client_id: PropTypes.string.isRequired,
   response_type: PropTypes.string.isRequired,
   redirect_uri: PropTypes.string.isRequired,

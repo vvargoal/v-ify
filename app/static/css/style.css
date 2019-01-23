@@ -59,6 +59,10 @@
   padding-top: 9.375rem;
 }
 
+.logout {
+  padding-left: 2rem;
+}
+
 /*TODO remove*/
 /*
 .clearfix:before,
