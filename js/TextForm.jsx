@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
-class RangeSelector extends React.Component {
+class TextForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -15,20 +14,20 @@ class RangeSelector extends React.Component {
   }
 
   render() {
-    const { options, value } = this.props;
+    const { value } = this.props;
     return (
-      <select value={value} onChange={this.handleChange}>
-        { options.map((option) =>
-          <option key={option.value} value={option.value}>{option.label}</option>)
-        }
-      </select>
+      <input
+        type="text"
+        value={value}
+        onChange={this.handleChange}
+      />
     );
   }
 }
 
-RangeSelector.propTypes = {
+TextForm.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 
-export default RangeSelector;
+export default TextForm;

@@ -10,10 +10,15 @@ class AdjustablePlaylist extends React.Component {
   }
 
   render() {
-    const { access_token, id, display_name, images } = this.props;
+    const {
+      access_token,
+      id,
+      display_name,
+      images,
+    } = this.props;
 
     return (
-      // TODO need to add login bar
+      // TODO need to add notifier bar
       <div className="AdjustablePlaylist">
         <LoginBar
           display_name={display_name}
@@ -33,6 +38,7 @@ class AdjustablePlaylist extends React.Component {
 AdjustablePlaylist.propTypes = {
   access_token: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  display_name: PropTypes.string.isRequired,
 };
 
 export default AdjustablePlaylist;

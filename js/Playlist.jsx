@@ -3,6 +3,7 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import PropTypes from 'prop-types';
 import RangeSelector from './RangeSelector';
+import TextForm from './TextForm';
 import createQueryUrl from './Utilities';
 
 const timeRangeOptions = [
@@ -27,11 +28,16 @@ class Playlist extends React.Component {
       items: [],
       time_range: timeRangeOptions[1].value,
       limit: 20,
+      playlistName: 'Top Tracks',
     };
 
     this.fetchTopTracks = this.fetchTopTracks.bind(this);
     this.handleTimeChange = this.handleTimeChange.bind(this);
     this.handleLimitChange = this.handleLimitChange.bind(this);
+    this.handlePlaylistNameChange = this.handlePlaylistNameChange.bind(this);
+    this.saveCurrentPlaylist = this.saveCurrentPlaylist.bind(this);
+    this.createPlaylist = this.createPlaylist.bind(this);
+    this.fillPlaylist = this.fillPlaylist.bind(this);
   }
 
   componentDidMount() {
@@ -73,15 +79,69 @@ class Playlist extends React.Component {
     this.setState({ limit: value }, this.fetchTopTracks);
   }
 
-  saveCurrentPlaylist() {
-    // get user id
-    const params = {
+  handlePlaylistNameChange(value) {
+    this.setState({ playlistName: value });
+  }
+
+  createPlaylist(name, description) {
+    // Return a promise to create playlist
+    const { id, access_token } = this.props;
+    const endpoint = `https://api.spotify.com/v1/users/${id}/playlists`;
+    const data = {
+      name,
+      description,
+      public: false,
     };
+    const p = fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) throw Error(response.statusText);
+        // TODO parse the response to make sure it's good
+        return response.json();
+      });
+    return p;
+  }
+
+  fillPlaylist(data, playlistURIs) {
+    // Return promise to fill playlist
+    const { access_token } = this.props;
+    const endpoint = `https://api.spotify.com/v1/playlists/${data.id}/tracks`;
+    const p = fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(playlistURIs),
+    })
+      .then((response) => {
+        if (!response.ok) throw Error(response.statusText);
+      });
+    return p;
+  }
+
+  saveCurrentPlaylist() {
+    const { items, playlistName } = this.state;
+    const description = 'Created by spoti-v';
+    // Save snapshot of current playlist
+    const playlistURIs = items.map(item => item.uri);
+    this.createPlaylist(playlistName, description)
+      .then(data => this.fillPlaylist(data, playlistURIs))
+      .then(() => console.log('Playlist saved'))
+      .catch(error => console.log(error));
   }
 
   render() {
     console.log('rendered state: ', this.state);
-    const { items, time_range, limit } = this.state;
+    const { items, time_range, limit, playlistName } = this.state;
     return (
       <div>
         <ReactTable
@@ -101,7 +161,22 @@ class Playlist extends React.Component {
                     value={limit}
                     onChange={this.handleLimitChange}
                   />
-                  <button type="button">Save Playlist</button>
+                  <button
+                    type="button"
+                    onClick={this.fetchTopTracks}
+                  >
+                    Refresh
+                  </button>
+                  <TextForm
+                    value={playlistName}
+                    onChange={this.handlePlaylistNameChange}
+                  />
+                  <button
+                    type="button"
+                    onClick={this.saveCurrentPlaylist}
+                  >
+                    Save Playlist
+                  </button>
                 </div>,
               columns: [
                 {
@@ -139,6 +214,7 @@ class Playlist extends React.Component {
 Playlist.propTypes = {
   access_token: PropTypes.string.isRequired,
   endpoint: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default Playlist;

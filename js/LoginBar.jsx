@@ -7,7 +7,7 @@ function LoginBar(props) {
   const { display_name, images, id } = props;
   const image_url = (images && images.length > 0) ? images[0].url : blank_user_url;
   return (
-    <div className="clearfix">
+    <header className="header">
       <div className="title">
         <a href="/">spoti-v</a>
       </div>
@@ -22,15 +22,14 @@ function LoginBar(props) {
           <img alt={id} src={image_url} />
         </div>
       </div>
-
-    </div>
+    </header>
   );
 }
 
-// LoginBar.propTypes = {
-//   display_name: PropTypes.string.isRequired,
-//   id: PropTypes.string.isRequired,
-//   images: PropTypes.arrayOf(React.propTypes.string).isRequired,
-// };
+LoginBar.propTypes = {
+  display_name: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  // images: PropTypes.arrayOf(React.propTypes.string).isRequired,
+};
 
 export default LoginBar;
