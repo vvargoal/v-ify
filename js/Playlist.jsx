@@ -130,13 +130,14 @@ class Playlist extends React.Component {
 
   saveCurrentPlaylist() {
     const { items, playlistName } = this.state;
+    const { printMessage } = this.props;
     const description = 'Created by spoti-v';
     // Save snapshot of current playlist
     const playlistURIs = items.map(item => item.uri);
     this.createPlaylist(playlistName, description)
       .then(data => this.fillPlaylist(data, playlistURIs))
-      .then(() => console.log('Playlist saved'))
-      .catch(error => console.log(error));
+      .then(() => printMessage('Playlist Saved'))
+      .catch(error => printMessage(error, true));
   }
 
   render() {
@@ -215,6 +216,7 @@ Playlist.propTypes = {
   access_token: PropTypes.string.isRequired,
   endpoint: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  printMessage: PropTypes.func.isRequired,
 };
 
 export default Playlist;
