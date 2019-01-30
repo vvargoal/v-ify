@@ -18,9 +18,11 @@ const limitOptions = [
   { value: 50, label: 'Top 50' },
 ];
 
-// Get access_token from super
-// Fetch songs
-// Display songs in react-table
+/**
+ * Playlist fetches a list of top tracks from Spotify API
+ * to be displayed in table form, with the option
+ * to save a playlist to Spotify with a specified name
+ */
 class Playlist extends React.Component {
   constructor(props) {
     super(props);
@@ -41,11 +43,10 @@ class Playlist extends React.Component {
   }
 
   componentDidMount() {
-    // TODO pass down url
-    // TODO send time_range parameter
     this.fetchTopTracks();
   }
 
+  // Asyc fill playlist from Spotify API
   fetchTopTracks() {
     const { time_range, limit } = this.state;
     const { endpoint, access_token } = this.props;
@@ -67,10 +68,11 @@ class Playlist extends React.Component {
   }
 
   handleTimeChange(value) {
-    // Function version of setState ensures that state is
-    // set to the correct value before fetchTopTracks call
-    // Otherwise the call will use state state values, as
-    // setState is async
+    /** Function version of setState ensures that state is
+     * set to the correct value before fetchTopTracks call
+     * Otherwise the call will use state state values, as
+     * setState is async
+     */
     this.setState({ time_range: value }, this.fetchTopTracks);
   }
 
@@ -83,8 +85,8 @@ class Playlist extends React.Component {
     this.setState({ playlistName: value });
   }
 
+  // Return a promise to create new playlist with Spotify API
   createPlaylist(name, description) {
-    // Return a promise to create playlist
     const { id, access_token } = this.props;
     const endpoint = `https://api.spotify.com/v1/users/${id}/playlists`;
     const data = {
@@ -109,8 +111,10 @@ class Playlist extends React.Component {
     return p;
   }
 
+  /** Return a promise to fill playlist found in data
+   *  with URIs passed in
+   */
   fillPlaylist(data, playlistURIs) {
-    // Return promise to fill playlist
     const { access_token } = this.props;
     const endpoint = `https://api.spotify.com/v1/playlists/${data.id}/tracks`;
     const p = fetch(endpoint, {
@@ -142,7 +146,12 @@ class Playlist extends React.Component {
 
   render() {
     console.log('rendered state: ', this.state);
-    const { items, time_range, limit, playlistName } = this.state;
+    const {
+      items,
+      time_range,
+      limit,
+      playlistName,
+    } = this.state;
     return (
       <div>
         <ReactTable

@@ -17,7 +17,7 @@ class AdjustablePlaylist extends React.Component {
   }
 
   handleMessages(message, isError = false) {
-    this.setState({ message, isError });
+    this.setState({ message, isError, isShowing: true });
   }
 
   render() {
@@ -28,10 +28,9 @@ class AdjustablePlaylist extends React.Component {
       images,
     } = this.props;
 
-    const { message, isError } = this.state;
+    const { message, isError, isShowing } = this.state;
 
     return (
-      // TODO need to add notifier bar
       <div className="AdjustablePlaylist">
         <LoginBar
           display_name={display_name}
@@ -41,6 +40,7 @@ class AdjustablePlaylist extends React.Component {
         <MessageBar
           message={message}
           isError={isError}
+          isShowing={isShowing}
           timeout={3000}
         />
         <Playlist
