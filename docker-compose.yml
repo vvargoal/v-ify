@@ -11,7 +11,7 @@ services:
       - db_password
   web:
     build: ./app
-    command: gunicorn vstats.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn v-ify.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - ./app/:/code
         # - ./app/:/usr/src/app/

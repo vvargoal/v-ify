@@ -1,9 +1,9 @@
-"""vstats package configuration."""
+"""v-ify package configuration."""
 
 from setuptools import setup
 
 setup(
-    name='vstats',
+    name='v-ify',
     version='0.1.0',
     packages=['app'],
     include_package_data=True,

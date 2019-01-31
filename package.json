@@ -1,7 +1,7 @@
 {
-  "name": "vstats",
+  "name": "v-ify",
   "version": "0.1.0",
-  "description": "vstats front end",
+  "description": "v-ify front end",
   "main": "js/main.jsx",
   "author": "Vaughn",
   "license": "MIT",
