@@ -9,7 +9,7 @@ function LoginBar(props) {
   return (
     <header className="header">
       <div className="title">
-        <a href="/">spoti-v</a>
+        <a href="/">v-ify</a>
       </div>
       <div className="login-box">
         <div className="login-left">
