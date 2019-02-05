@@ -12,6 +12,22 @@
   z-index: 10;
 
   margin-bottom: 30px;
+
+  background-color: #1db954;
+}
+
+.header a:link {
+  text-decoration: none;
+  color: white;
+}
+
+.header a:visited {
+  text-decoration: none;
+  color: white;
+}
+
+.header a:hover{
+  text-decoration: underline;
 }
 
 .header .title {
@@ -19,7 +35,7 @@
 
 .header .login-box {
   margin-right: 3.125rem;
-  color: #1e3264;
+  color: white;
   align-items: end;
   display: flex;
 }

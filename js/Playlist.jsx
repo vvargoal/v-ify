@@ -135,7 +135,7 @@ class Playlist extends React.Component {
   saveCurrentPlaylist() {
     const { items, playlistName } = this.state;
     const { printMessage } = this.props;
-    const description = 'Created by spoti-v';
+    const description = 'Created by v-ify.com';
     // Save snapshot of current playlist
     const playlistURIs = items.map(item => item.uri);
     this.createPlaylist(playlistName, description)
