@@ -24,7 +24,7 @@ class LoginPage extends React.Component {
         access_token: hashParams.access_token,
       };
       // Remove spotify auth data from location
-      window.history.pushState('', document.title, window.location.pathname);
+      window.history.replaceState('', document.title, window.location.pathname);
       this.getSpotifyUserInfo();
     // TODO see if this actually makes sense anymore
     } else if (PerformanceNavigationTiming.type === 'back_forward') { // eslint-disable-line no-undef
