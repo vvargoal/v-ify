@@ -27,6 +27,7 @@ class LoginPage extends React.Component {
       window.history.replaceState('', document.title, window.location.pathname);
       this.getSpotifyUserInfo();
     // TODO see if this actually makes sense anymore
+    // TODO doesn't seem to work
     } else if (PerformanceNavigationTiming.type === 'back_forward') { // eslint-disable-line no-undef
       this.state = window.history.state;
     } else {

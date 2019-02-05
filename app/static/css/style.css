@@ -1,49 +1,49 @@
 .header {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 1.25rem 2.5vw;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1.25rem 2.5vw;
 
-    position: fixed;
-    flex-direction: row;
-    justify-content: space-between;
-    overflow: hidden;
-    top: 0;
-    z-index: 10;
-}
+  position: fixed;
+  flex-direction: row;
+  justify-content: space-between;
+  overflow: hidden;
+  top: 0;
+  z-index: 10;
 
-.header .title-bar {
   margin-bottom: 30px;
 }
 
-.header .title-bar .title {
-  width: 14.6875rem;
-  display: block;
-  margin-right: auto;
+.header .title {
 }
 
 .header .login-box {
-    color: #1e3264;
-    align-items: center;
-    display: flex;
+  margin-right: 3.125rem;
+  color: #1e3264;
+  align-items: end;
+  display: flex;
 }
 
 .header .login-box .login-left {
-    text-align: right;
-    margin-right: 0.625rem;
+  text-align: right;
+  margin-right: 0.625rem;
 }
 
-.header .login-box .user-name {
-    display: block;
-    padding-bottom: 0.125ree;
+.header .login-box .login-left .user-name {
+  padding-bottom: 0.125rem;
+}
+
+.header .login-box .login-left .logout {
+  padding-left: 2rem;
 }
 
 .header .login-box .login-right {
-  height: 1.625rem;
-  width: 1.625rem;
-  border-radius: 0.8125rem;
+  height: 2.375rem;
+  width: 2.375rem;
+  border-radius: 1.1875rem;
   box-shadow: 0 0 0 2px #1e3264;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .header .login-box .login-right img {
@@ -56,9 +56,6 @@
   padding-top: 9.375rem;
 }
 
-.logout {
-  padding-left: 2rem;
-}
 
 .message-bar {
   visibility: hidden; 
@@ -108,22 +105,4 @@
   from {top: 30px; opacity: 1;}
   to {top: 0; opacity: 0;}
 }
-
-/*TODO remove*/
-/*
-.clearfix:before,
-.clearfix:after {
-  content: " ";
-  display: table;
-}
-.clearfix:after {
-  clear: both;
-}
-#login {
-  display: none;
-}
-#loggedin {
-  display: none;
-}
-*/
 
