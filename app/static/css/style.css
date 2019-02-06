@@ -36,13 +36,21 @@
 .header .login-box {
   margin-right: 3.125rem;
   color: white;
-  align-items: end;
+
   display: flex;
+  flex-direction: row;
 }
 
 .header .login-box .login-left {
   text-align: right;
   margin-right: 0.625rem;
+
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-content: stretch;
+  align-items: flex-end;
 }
 
 .header .login-box .login-left .user-name {
@@ -54,9 +62,9 @@
 }
 
 .header .login-box .login-right {
-  height: 2.375rem;
-  width: 2.375rem;
-  border-radius: 1.1875rem;
+  height: 3.125rem;
+  width: 3.125rem;
+  border-radius: 1.5625rem;
   box-shadow: 0 0 0 2px #1e3264;
   overflow: hidden;
   flex-shrink: 0;
