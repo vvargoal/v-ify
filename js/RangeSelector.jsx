@@ -18,7 +18,7 @@ class RangeSelector extends React.Component {
     const { options, value } = this.props;
     return (
       <select value={value} onChange={this.handleChange}>
-        { options.map((option) =>
+        { options.map(option => 
           <option key={option.value} value={option.value}>{option.label}</option>)
         }
       </select>

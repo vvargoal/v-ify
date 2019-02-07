@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import LoginPage from './loginpage';
+import LoginPage from './LoginPage';
 import ErrorBoundary from './ErrorBoundary';
 
 ReactDOM.render(

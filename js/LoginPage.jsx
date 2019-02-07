@@ -10,12 +10,11 @@ const stateKey = 'spotify_auth_state';
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
-    const hashParams = queryString.parse(window.location.hash);
-    console.log(hashParams);
 
     // Check if redirected by spotify auth request
     // If so, save access_token.
     // Existence will be checked by render to bypass login button.
+    const hashParams = queryString.parse(window.location.hash);
     if ('access_token' in hashParams && 'state' in hashParams) {
       if (hashParams.state !== localStorage.getItem(stateKey)) {
         throw new Error('Recieved state does not match stored.');
@@ -38,9 +37,6 @@ class LoginPage extends React.Component {
     this.getSpotifyUserInfo = this.getSpotifyUserInfo.bind(this);
   }
 
-  componentDidMount() {
-  }
-
   getSpotifyUserInfo() {
     const endpoint = 'https://api.spotify.com/v1/me';
     const { access_token } = this.state;
@@ -56,7 +52,6 @@ class LoginPage extends React.Component {
       .then((data) => {
         const { id, display_name, images } = data;
         this.setState({ id, display_name, images });
-        console.log('User data: ', data.id);
       })
       .catch(error => console.log(error));
   }
@@ -90,8 +85,13 @@ class LoginPage extends React.Component {
   }
 
   render() {
-    if ('access_token' in this.state) {
-      const { access_token, id, display_name, images } = this.state;
+    if ('display_name' in this.state) {
+      const {
+        access_token,
+        id,
+        display_name,
+        images,
+      } = this.state;
       return (
         <AdjustablePlaylist
           access_token={access_token}
@@ -105,7 +105,13 @@ class LoginPage extends React.Component {
       <div className="container">
         <div id="login">
           <h1>This is an example of the Implicit Grant flow</h1>
-          <button id="login-button" onClick={this.handleLogin}>Log in with Spotify</button>
+          <button
+            type="button"
+            id="login-button"
+            onClick={this.handleLogin}
+          >
+            Log in with Spotify
+          </button>
         </div>
         <div id="loggedin">
           <div id="user-profile" />

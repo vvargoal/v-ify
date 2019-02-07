@@ -145,7 +145,6 @@ class Playlist extends React.Component {
   }
 
   render() {
-    console.log('rendered state: ', this.state);
     const {
       items,
       time_range,
@@ -168,7 +167,7 @@ class Playlist extends React.Component {
                   />
                   <RangeSelector
                     options={limitOptions}
-                    value={limit}
+                    value={limit.toString()}
                     onChange={this.handleLimitChange}
                   />
                   <button
