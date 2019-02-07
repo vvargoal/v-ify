@@ -49,7 +49,7 @@ class Playlist extends React.Component {
   // Asyc fill playlist from Spotify API
   fetchTopTracks() {
     const { time_range, limit } = this.state;
-    const { endpoint, access_token } = this.props;
+    const { endpoint, access_token, printMessage } = this.props;
     const params = {
       time_range,
       limit,
@@ -64,7 +64,8 @@ class Playlist extends React.Component {
       .then((data) => {
         this.setState(data);
       })
-      .catch(error => console.log(error)); // TODO catch invalid credential
+      .then(() => printMessage('Playlist loaded'))
+      .catch(error => printMessage(error, true)); // TODO catch invalid credential
   }
 
   handleTimeChange(value) {
