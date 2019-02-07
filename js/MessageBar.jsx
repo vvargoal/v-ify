@@ -23,15 +23,6 @@ class MessageBar extends React.Component {
     const { isShowing } = this.state;
     const { message, isError, timeout } = this.props;
 
-    // For styling
-    let className = 'message-bar';
-    if (isShowing && message) {
-      className += ' message-bar-show';
-    }
-    if (isError) {
-      className += ' message-bar-error';
-    }
-
     /**
      * Remove message after timeout seconds.
      * Clear current timeout so timout resets with each message
@@ -43,6 +34,16 @@ class MessageBar extends React.Component {
     this.currentTimeout = setTimeout(() => {
       this.setState({ isShowing: false });
     }, timeout);
+
+    if (!isShowing || !message) {
+      return <div />;
+    }
+
+    // For styling
+    let className = 'message-bar';
+    if (isError) {
+      className += ' message-bar-error';
+    }
 
     return (
       <div className={className}>
