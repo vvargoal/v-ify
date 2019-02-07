@@ -80,33 +80,25 @@
   padding-top: 9.375rem;
 }
 
-
 .message-bar {
   min-width: 250px; 
-  margin-left: -125px; 
   background-color: black; 
   color: white; 
   text-align: center; 
   border-radius: 2px; 
   padding: 16px; 
   position: fixed; 
+  /* Center the item on the page */
+  left: 50%;
+  transform: translate(-50%);
   z-index: 2; 
-  left: 50%; 
   top: 98px; 
-
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
 .message-bar-error {
   background-color: red;
-}
-
-/* Show the MessageBar when clicking on a button (class added with JavaScript) */
-.message-bar-show {
-  visibility: visible; /* Show the MessageBar */
-  /* Add animation: Take 0.5 seconds to fade in and out the MessageBar. 
-  However, delay the fade out process for 2.5 seconds */
 }
 
 /* Animations to fade the MessageBar in and out */

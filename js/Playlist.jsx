@@ -65,7 +65,8 @@ class Playlist extends React.Component {
         this.setState(data);
       })
       .then(() => printMessage('Playlist loaded'))
-      .catch(error => printMessage(error, true)); // TODO catch invalid credential
+      .catch(() => printMessage('Unable to fetch tracks. Check your internet connection or reload this page.', true)); // TODO catch invalid credential
+    // TODO rethrow here?
   }
 
   handleTimeChange(value) {
@@ -88,7 +89,7 @@ class Playlist extends React.Component {
 
   // Return a promise to create new playlist with Spotify API
   createPlaylist(name, description) {
-    const { id, access_token } = this.props;
+    const { id, access_token, printMessage } = this.props;
     const endpoint = `https://api.spotify.com/v1/users/${id}/playlists`;
     const data = {
       name,
@@ -116,7 +117,8 @@ class Playlist extends React.Component {
    *  with URIs passed in
    */
   fillPlaylist(data, playlistURIs) {
-    const { access_token } = this.props;
+    const { access_token, printMessage } = this.props;
+    // TODO verify data.id exists
     const endpoint = `https://api.spotify.com/v1/playlists/${data.id}/tracks`;
     const p = fetch(endpoint, {
       method: 'POST',
@@ -142,7 +144,7 @@ class Playlist extends React.Component {
     this.createPlaylist(playlistName, description)
       .then(data => this.fillPlaylist(data, playlistURIs))
       .then(() => printMessage('Playlist Saved'))
-      .catch(error => printMessage(error, true));
+      .catch(() => printMessage('Unable to save playlist. Check your internet connection or reload the page.', true));
   }
 
   render() {
