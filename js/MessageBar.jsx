@@ -8,11 +8,7 @@ import PropTypes from 'prop-types';
 class MessageBar extends React.Component {
   constructor(props) {
     super(props);
-    const { isShowing } = this.props;
-    this.state = { isShowing };
-  }
-
-  componentDidMount() {
+    this.state = { isShowing: true };
   }
 
   render() {
@@ -47,7 +43,6 @@ class MessageBar extends React.Component {
 MessageBar.propTypes = {
   message: PropTypes.string.isRequired,
   isError: PropTypes.bool.isRequired,
-  isShowing: PropTypes.bool.isRequired,
   timeout: PropTypes.number.isRequired,
 };
 

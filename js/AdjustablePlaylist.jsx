@@ -11,13 +11,18 @@ class AdjustablePlaylist extends React.Component {
     this.state = {
       message: '',
       isError: false,
+      messageNumber: 0,
     };
 
     this.handleMessages = this.handleMessages.bind(this);
   }
 
   handleMessages(message, isError = false) {
-    this.setState({ message, isError, isShowing: true });
+    this.setState(prevState => ({
+      message,
+      isError,
+      messageNumber: prevState.messageNumber + 1,
+    }));
   }
 
   render() {
@@ -28,7 +33,7 @@ class AdjustablePlaylist extends React.Component {
       images,
     } = this.props;
 
-    const { message, isError, isShowing } = this.state;
+    const { message, isError, messageNumber } = this.state;
 
     return (
       <div className="AdjustablePlaylist">
@@ -40,8 +45,8 @@ class AdjustablePlaylist extends React.Component {
         <MessageBar
           message={message}
           isError={isError}
-          isShowing={isShowing}
           timeout={3000}
+          key={messageNumber}
         />
         <Playlist
           access_token={access_token}
