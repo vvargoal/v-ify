@@ -9,6 +9,14 @@ class MessageBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isShowing: true };
+    this.currentTimeout = null;
+  }
+
+  componentWillUnmount() {
+    // Avoid warning where setTimeout is called on unmounted component
+    if (this.currentTimeout) {
+      clearTimeout(this.currentTimeout);
+    }
   }
 
   render() {
@@ -26,9 +34,13 @@ class MessageBar extends React.Component {
 
     /**
      * Remove message after timeout seconds.
+     * Clear current timeout so timout resets with each message
      * Make sure timeout value meshes with css fade
      */
-    setTimeout(() => {
+    if (this.currentTimeout) {
+      clearTimeout(this.currentTimeout);
+    }
+    this.currentTimeout = setTimeout(() => {
       this.setState({ isShowing: false });
     }, timeout);
 

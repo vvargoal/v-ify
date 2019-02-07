@@ -100,16 +100,16 @@
   background-color: red;
 }
 
-/* Show the snackbar when clicking on a button (class added with JavaScript) */
+/* Show the MessageBar when clicking on a button (class added with JavaScript) */
 .message-bar-show {
-  visibility: visible; /* Show the snackbar */
-  /* Add animation: Take 0.5 seconds to fade in and out the snackbar. 
+  visibility: visible; /* Show the MessageBar */
+  /* Add animation: Take 0.5 seconds to fade in and out the MessageBar. 
   However, delay the fade out process for 2.5 seconds */
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
-/* Animations to fade the snackbar in and out */
+/* Animations to fade the MessageBar in and out */
 @-webkit-keyframes fadein {
   from {top: 90px; opacity: 0;} 
   to {top: 98px; opacity: 1;}
