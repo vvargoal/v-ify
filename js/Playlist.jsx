@@ -117,7 +117,7 @@ class Playlist extends React.Component {
    *  with URIs passed in
    */
   fillPlaylist(data, playlistURIs) {
-    const { access_token, printMessage } = this.props;
+    const { access_token } = this.props;
     // TODO verify data.id exists
     const endpoint = `https://api.spotify.com/v1/playlists/${data.id}/tracks`;
     const p = fetch(endpoint, {

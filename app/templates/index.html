@@ -1,35 +1,13 @@
 {% extends "base.html" %}
 {% block body %}
 
-<section id="user-profile">
-  {% if spotify_id %}
-  <p>Logged in: {{ display_name }}
-  <p>Id: {{ spotify_id }}
-  <p>Email: {{ email }}
-  <p>Image: {{ image_url }}
-  <div id="top-tracks">
-    <h1>Top Tracks</h1>
-    <ul>
-    {% for item in items %}
-    <!-- Need to split up artists and link individually -->
-      <li><a href="{{ item.uri }}">{{ item.name }}</a><span> - </span>
-          {% for artist in item.artists %}
-          <span>, </span><a href="{{ artist.uri }}">{{ artist.name }}</a>
-          {% endfor %}
-    {% endfor %}
-<!-- 
- <script id="loggedin-template" type="text/x-handlebars-template">
-    <h1>Logged in as </h1>
-    <img id="avatar" width="200" src="" />
-    <dl>
-     <dt>Display name</dt><dd></dd>
-     <dt>Username</dt><dd></dd>
-     <dt>Email</dt><dd></dd>
-     <dt>Spotify URI</dt><dd><a href=""></a></dd>
-     <dt>Link</dt><dd><a href=""></a></dd>
-     <dt>Profile Image</dt><dd></dd>
-    </dl>
-    <p><a href="/">Log in again</a></p>
- </script>
--->
+<div id="user-profile">
+  <div id="reactEntry">
+    Loading ...
+  </div>
+</div>
+<!-- Load JavaScript -->
+{% load static %}
+<script type="text/javascript" src="{% static "js/bundle.js" %}"></script>
+
 {% endblock %}

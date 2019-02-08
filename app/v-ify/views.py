@@ -11,7 +11,7 @@ from . import settings
 logger = logging.getLogger(__name__)
 
 def index(request):
-    """Test the js rendering."""
-    template = get_template('js.html')
+    """Entrypoint for React app."""
+    template = get_template('index.html')
     context = {**request.session}
     return HttpResponse(template.render(context, request))
