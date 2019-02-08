@@ -104,7 +104,7 @@ class LoginPage extends React.Component {
     return (
       <div className="container">
         <div id="login">
-          <h1>This is an example of the Implicit Grant flow</h1>
+          <h1>Log in to see your Spotify Top Tracks</h1>
           <button
             type="button"
             id="login-button"
