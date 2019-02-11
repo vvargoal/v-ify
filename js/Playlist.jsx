@@ -89,7 +89,7 @@ class Playlist extends React.Component {
 
   // Return a promise to create new playlist with Spotify API
   createPlaylist(name, description) {
-    const { id, access_token, printMessage } = this.props;
+    const { id, access_token } = this.props;
     const endpoint = `https://api.spotify.com/v1/users/${id}/playlists`;
     const data = {
       name,
