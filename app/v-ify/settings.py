@@ -20,23 +20,31 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-with open(os.getenv('SECRET_KEY_FILE', 'secret_key.txt')) as f:
-    SECRET_KEY = f.read().strip()
+# Docker cloud uses environmental variables for secrets
+try:
+    with open(os.getenv('SECRET_KEY_FILE', 'secret_key.txt')) as f:
+        SECRET_KEY = f.read().strip()
+except EnvironmentError:
+    SECRET_KEY = os.getenv('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-with open(os.getenv('SPOTIFY_CLIENT_SECRET_FILE', 'spotify_client_secret.txt')) as f:
-    SPOTIFY_CLIENT_SECRET = f.read().strip()
+# Docker cloud uses environmental variables for secrets
+try:
+    with open(os.getenv('SPOTIFY_CLIENT_SECRET_FILE', 'spotify_client_secret.txt')) as f:
+        SPOTIFY_CLIENT_SECRET = f.read().strip()
+except EnvironmentError:
+    SPOTIFY_CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
+
 
 SPOTIFY_CLIENT_ID = 'c69f3282c595434aafb11381c0a93c02'
-SPOTIFY_REDIRECT_URI = 'http://localhost:1337/callback/'
 
 ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -79,14 +87,18 @@ WSGI_APPLICATION = 'v-ify.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-with open(os.getenv('DB_PASSWORD_FILE', 'db_password.txt')) as f:
-    DB_PASSWORD = f.read().strip()
+# Docker cloud uses environmental variables for secrets
+try:
+    with open(os.getenv('DB_PASSWORD_FILE', 'db_password.txt')) as f:
+        DB_PASSWORD = f.read().strip()
+except EnvironmentError:
+    DB_PASSWORD = os.getenv('DB_PASSWORD')
 
 # environ variables set in docker-compose.yml
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
+        'NAME': os.getenv('DB_NAME', 'postgres'),
         'USER': os.getenv('DB_USER', 'postgres'),
         'PASSWORD': DB_PASSWORD,
         'HOST': os.getenv('DB_HOST', 'localhost'),
