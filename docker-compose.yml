@@ -41,19 +41,19 @@ services:
       - static_volume:/code/staticfiles
       - media_volume:/code/mediafiles
     ports:
-      - 1337:80
+      - 80:80
     depends_on:
       - web
 
 secrets:
    db_password:
-     file: db_password.txt
+     file: secrets/db_password.txt
    db_root_password:
-     file: db_root_password.txt
+     file: secrets/db_root_password.txt
    secret_key:
-     file: secret_key.txt
+     file: secrets/secret_key.txt
    spotify_client_secret:
-     file: spotify_client_secret.txt
+     file: secrets/spotify_client_secret.txt
 
 volumes:
   postgres_data:
