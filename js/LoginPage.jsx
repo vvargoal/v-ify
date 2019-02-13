@@ -64,11 +64,12 @@ class LoginPage extends React.Component {
     // stateKey used for CSRF prevention
     localStorage.setItem(stateKey, uuidv4());
 
+    const redirect_uri = window.location.href;
+
     const {
       response_type,
       client_id,
       scope,
-      redirect_uri,
       spotify_authorize_uri,
     } = this.props;
 
@@ -126,7 +127,6 @@ LoginPage.propTypes = {
   scope: PropTypes.string.isRequired,
   client_id: PropTypes.string.isRequired,
   response_type: PropTypes.string.isRequired,
-  redirect_uri: PropTypes.string.isRequired,
   spotify_authorize_uri: PropTypes.string.isRequired,
 };
 
