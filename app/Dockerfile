@@ -6,24 +6,22 @@ FROM python:${PYTHON_VERSION} AS base
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 # Set the working directory to /app
-WORKDIR /code
-COPY requirements.txt /code
+WORKDIR /usr/src/app
+COPY requirements.txt /usr/src/app
 # Install any needed packages specified in requirements.txt
 RUN pip install --upgrade pip setuptools wheel
 RUN pip install -r requirements.txt
 
 # Build from here for quick updates
-# docker-compose up -d --no-deps --build web
 FROM base
 # Set the working directory to /app
-WORKDIR /code
+WORKDIR /usr/src/app
 # Copy the current directory contents into the container at /app
-COPY . /code
+COPY . /usr/src/app
 # Make port 80 available to the world outside this container
 EXPOSE 8000
 # Define environment variable
-# Defined in docker-compose
-# ENV NAME World
+# Environment variables defined in docker-compose
 # Run app.py when the container launches
 # CMD ["python", "manage.py runserver"]
-ENTRYPOINT ["/code/entrypoint.sh"]
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]

@@ -13,8 +13,9 @@ services:
     build: ./app
     command: gunicorn v-ify.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - static_volume:/code/staticfiles
-      - media_volume:/code/mediafiles
+      # - ./usr/src/app - this allows hot loading of usr/src/app?
+      - static_volume:/usr/src/app/staticfiles
+      - media_volume:/usr/src/app/mediafiles
     environment:
       SECRET_KEY_FILE: /run/secrets/secret_key
       SPOTIFY_CLIENT_SECRET_FILE: /run/secrets/spotify_client_secret
@@ -37,8 +38,8 @@ services:
   nginx:
     build: ./nginx
     volumes:
-      - static_volume:/code/staticfiles
-      - media_volume:/code/mediafiles
+      - static_volume:/usr/src/app/staticfiles
+      - media_volume:/usr/src/app/mediafiles
     ports:
       - 80:80
     depends_on:

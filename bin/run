@@ -1,2 +1,3 @@
 ./node_modules/.bin/webpack
+docker-compose build
 docker-compose up
