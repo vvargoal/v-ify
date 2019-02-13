@@ -10,7 +10,7 @@ services:
     secrets:
       - db_password
   web:
-    build: ./app
+    build: .
     command: gunicorn v-ify.wsgi:application --bind 0.0.0.0:8000
     volumes:
       # - ./usr/src/app - this allows hot loading of usr/src/app?
