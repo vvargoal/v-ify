@@ -13,8 +13,6 @@ services:
     image: vvargoal/v-ify:latest-web
     command: gunicorn v-ify.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - ./app/:/code
-        # - ./app/:/usr/src/app/
       - static_volume:/code/staticfiles
       - media_volume:/code/mediafiles
     environment:
