@@ -41,7 +41,7 @@ except EnvironmentError:
 
 SPOTIFY_CLIENT_ID = 'c69f3282c595434aafb11381c0a93c02'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.v-ify.com', 'localhost']
 
 
 # Application definition
