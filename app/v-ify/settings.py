@@ -20,29 +20,25 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# Docker cloud uses environmental variables for secrets
-try:
-    with open(os.getenv('SECRET_KEY_FILE', 'secret_key.txt')) as f:
-        SECRET_KEY = f.read().strip()
-except EnvironmentError:
-    SECRET_KEY = os.getenv('SECRET_KEY')
+# Docker stack uses environmental variables for secrets
+with open(os.getenv('SECRET_KEY_FILE', 'secret_key.txt')) as f:
+    SECRET_KEY = f.read().strip()
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG_VALUE') == 'TRUE'
 
-# Docker cloud uses environmental variables for secrets
-try:
-    with open(os.getenv('SPOTIFY_CLIENT_SECRET_FILE', 'spotify_client_secret.txt')) as f:
-        SPOTIFY_CLIENT_SECRET = f.read().strip()
-except EnvironmentError:
-    SPOTIFY_CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
+# Docker stack uses environmental variables for secrets
+with open(os.getenv('SPOTIFY_CLIENT_SECRET_FILE', 'spotify_client_secret.txt')) as f:
+    SPOTIFY_CLIENT_SECRET = f.read().strip()
 
 
 SPOTIFY_CLIENT_ID = 'c69f3282c595434aafb11381c0a93c02'
 
-ALLOWED_HOSTS = ['.v-ify.com', 'localhost']
-
+if DEBUG:
+    ALLOWED_HOSTS = ['localhost']
+else:
+    ALLOWED_HOSTS = ['.v-ify.com']
 
 # Application definition
 INSTALLED_APPS = [
@@ -87,7 +83,7 @@ WSGI_APPLICATION = 'v-ify.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-# Docker cloud uses environmental variables for secrets
+# Docker stack uses environmental variables for secrets
 try:
     with open(os.getenv('DB_PASSWORD_FILE', 'db_password.txt')) as f:
         DB_PASSWORD = f.read().strip()
