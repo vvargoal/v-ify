@@ -15,7 +15,7 @@ function LoginBar(props) {
         <div className="login-left">
           <div className="user-name">{display_name}</div>
           <div className="logout">
-            <a href="/accounts/logout"> Logout</a>
+            <a href="/logout"> Logout</a>
           </div>
         </div>
         <div className="login-right">

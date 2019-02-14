@@ -1,12 +1,8 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout
-from django.utils.crypto import get_random_string
-from django.template.loader import get_template
+"""Views for v-ify."""
 import logging
-import requests
-from . import settings
+from django.shortcuts import redirect
+from django.http import HttpResponse
+from django.template.loader import get_template
 
 logger = logging.getLogger(__name__)
 
@@ -15,3 +11,7 @@ def index(request):
     template = get_template('index.html')
     context = {**request.session}
     return HttpResponse(template.render(context, request))
+
+def logout_view(_):
+    """Logout redirect."""
+    return redirect('index')
