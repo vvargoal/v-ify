@@ -54,6 +54,9 @@ class AdjustablePlaylist extends React.Component {
           endpoint="https://api.spotify.com/v1/me/top/tracks"
           printMessage={this.handleMessages}
         />
+        <div className="github-link">
+          <a href="http://github.com/vvargoal/v-ify">Github</a>
+        </div>
       </div>
     );
   }
