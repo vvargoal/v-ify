@@ -21,6 +21,7 @@ class AdjustablePlaylist extends React.Component {
     this.setState(prevState => ({
       message,
       isError,
+      // Increment message number to use as key
       messageNumber: prevState.messageNumber + 1,
     }));
   }
