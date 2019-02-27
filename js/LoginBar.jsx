@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const blank_user_url = '/static/images/unknown_user.png';
+const blankUserUrl = '/static/images/unknown_user.png';
 
 export default function LoginBar(props) {
   const { display_name, images, id } = props;
-  const image_url = (images && images.length > 0) ? images[0].url : blank_user_url;
+  const image_url = (images && images.length > 0) ? images[0].url : blankUserUrl;
   return (
     <header className="header">
       <div className="title">

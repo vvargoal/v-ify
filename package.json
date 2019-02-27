@@ -18,6 +18,7 @@
     "css-loader": "^2.1.0",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.10.0",
+    "enzyme-to-json": "^3.3.5",
     "eslint": "^5.13.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.16.0",
@@ -42,5 +43,16 @@
   },
   "scripts": {
     "test": "jest --verbose"
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "setupFiles": [
+      "./js/__tests__/setupTests.js"
+    ],
+    "testPathIgnorePatterns": [
+      "./js/__tests__/setupTests.js"
+    ]
   }
 }
