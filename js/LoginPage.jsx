@@ -7,7 +7,7 @@ import createQueryUrl from './Utilities';
 
 const stateKey = 'spotify_auth_state';
 
-class LoginPage extends React.Component {
+export default class LoginPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -125,5 +125,3 @@ LoginPage.propTypes = {
   response_type: PropTypes.string.isRequired,
   spotify_authorize_uri: PropTypes.string.isRequired,
 };
-
-export default LoginPage;

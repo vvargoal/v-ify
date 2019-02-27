@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class UserBar extends React.Component {
+export default class UserBar extends React.Component {
   constructor(props) {
     this.state = {};
   }
@@ -27,5 +27,3 @@ class UserBar extends React.Component {
 UserBar.propTypes = {
   access_token: PropTypes.string.isRequired,
 };
-
-export default UserBar;

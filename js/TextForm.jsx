@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-class TextForm extends React.Component {
+export default class TextForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -29,5 +29,3 @@ TextForm.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
-
-export default TextForm;

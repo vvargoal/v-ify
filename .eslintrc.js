@@ -4,10 +4,12 @@ module.exports = {
   "plugins": [
     "react",
     "jsx-a11y",
-    "import"
+    "import",
+    "jest"
   ],
   "env": {
       "browser": true,
+      "jest/globals": true,
   },
   "rules": {
     "camelcase": "warn",

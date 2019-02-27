@@ -5,7 +5,7 @@ import LoginBar from './LoginBar';
 import MessageBar from './MessageBar';
 
 
-class AdjustablePlaylist extends React.Component {
+export default class AdjustablePlaylist extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -68,5 +68,3 @@ AdjustablePlaylist.propTypes = {
   id: PropTypes.string.isRequired,
   display_name: PropTypes.string.isRequired,
 };
-
-export default AdjustablePlaylist;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const blank_user_url = '/static/images/unknown_user.png';
 
-function LoginBar(props) {
+export default function LoginBar(props) {
   const { display_name, images, id } = props;
   const image_url = (images && images.length > 0) ? images[0].url : blank_user_url;
   return (
@@ -31,5 +31,3 @@ LoginBar.propTypes = {
   id: PropTypes.string.isRequired,
   // images: PropTypes.arrayOf(React.propTypes.string).isRequired,
 };
-
-export default LoginBar;

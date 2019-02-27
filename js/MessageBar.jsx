@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 /**
  * For displaying messages to user.
  */
-class MessageBar extends React.Component {
+export default class MessageBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isShowing: true };
@@ -58,5 +58,3 @@ MessageBar.propTypes = {
   isError: PropTypes.bool.isRequired,
   timeout: PropTypes.number.isRequired,
 };
-
-export default MessageBar;
