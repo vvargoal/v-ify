@@ -23,7 +23,7 @@ const limitOptions = [
  * to be displayed in table form, with the option
  * to save a playlist to Spotify with a specified name
  */
-class Playlist extends React.Component {
+export default class Playlist extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,7 +66,6 @@ class Playlist extends React.Component {
       })
       .then(() => printMessage('Playlist loaded'))
       .catch(() => printMessage('Unable to fetch tracks. Check your internet connection or reload this page.', true)); // TODO catch invalid credential
-    // TODO rethrow here?
   }
 
   handleTimeChange(value) {
@@ -116,6 +115,7 @@ class Playlist extends React.Component {
   /** Return a promise to fill playlist found in data
    *  with URIs passed in
    */
+  // Could be improved with async/await
   fillPlaylist(data, playlistURIs) {
     const { access_token } = this.props;
     // TODO verify data.id exists
@@ -229,5 +229,3 @@ Playlist.propTypes = {
   id: PropTypes.string.isRequired,
   printMessage: PropTypes.func.isRequired,
 };
-
-export default Playlist;

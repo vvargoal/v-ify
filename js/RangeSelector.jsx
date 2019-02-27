@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-class RangeSelector extends React.Component {
+export default class RangeSelector extends React.Component {
   constructor(props) {
     super(props);
 
@@ -30,5 +30,3 @@ RangeSelector.propTypes = {
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
-
-export default RangeSelector;
