@@ -10,6 +10,7 @@ export default class MessageBar extends React.Component {
     super(props);
     this.state = { isShowing: true };
     this.currentTimeout = null;
+    this.handleDismiss = this.handleDismiss.bind(this);
   }
 
   componentWillUnmount() {
@@ -17,6 +18,10 @@ export default class MessageBar extends React.Component {
     if (this.currentTimeout) {
       clearTimeout(this.currentTimeout);
     }
+  }
+
+  handleDismiss() {
+    this.setState({ isShowing: false });
   }
 
   render() {
@@ -31,9 +36,7 @@ export default class MessageBar extends React.Component {
     if (this.currentTimeout) {
       clearTimeout(this.currentTimeout);
     }
-    this.currentTimeout = setTimeout(() => {
-      this.setState({ isShowing: false });
-    }, timeout);
+    this.currentTimeout = setTimeout(this.handleDismiss, timeout);
 
     if (!isShowing || !message) {
       return <div />;
@@ -47,7 +50,9 @@ export default class MessageBar extends React.Component {
 
     return (
       <div className={className}>
-        {message}
+        <div>{message}</div>
+        <button type="button" onClick={this.handleDismiss}>Dismiss</button>
+        <button type="button">Undo</button>
       </div>
     );
   }

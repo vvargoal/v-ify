@@ -1,0 +1,61 @@
+version: '3.7'
+
+services:
+  db:
+    image: vvargoal/v-ify:latest-db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment: 
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
+  web:
+    image: vvargoal/v-ify:latest-web
+    command: gunicorn v-ify.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+        # - ./app/:/code
+        # - ./app/:/usr/src/app/
+      - static_volume:/code/staticfiles
+      - media_volume:/code/mediafiles
+    environment:
+      SECRET_KEY_FILE: /run/secrets/secret_key
+      SPOTIFY_CLIENT_SECRET_FILE: /run/secrets/spotify_client_secret
+      DB_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      DB_NAME: postgres
+      DB_USER: postgres
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - secret_key
+      - spotify_client_secret
+      - db_root_password
+      - db_password
+    ports:
+      - 8000
+    depends_on:
+      - db
+  nginx:
+    image: vvargoal/v-ify:latest-nginx
+    volumes:
+      - static_volume:/code/staticfiles
+      - media_volume:/code/mediafiles
+    ports:
+      - 80:80
+    depends_on:
+      - web
+
+secrets:
+   db_password:
+     file: secrets/db_password.txt
+   db_root_password:
+     file: secrets/db_root_password.txt
+   secret_key:
+     file: secrets/secret_key.txt
+   spotify_client_secret:
+     file: secrets/spotify_client_secret.txt
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:

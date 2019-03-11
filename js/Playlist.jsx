@@ -87,7 +87,7 @@ export default class Playlist extends React.Component {
   }
 
   // Return a promise to create new playlist with Spotify API
-  createPlaylist(name, description) {
+  async createPlaylist(name, description) {
     const { id, access_token } = this.props;
     const endpoint = `https://api.spotify.com/v1/users/${id}/playlists`;
     const data = {
@@ -95,7 +95,7 @@ export default class Playlist extends React.Component {
       description,
       public: false,
     };
-    const p = fetch(endpoint, {
+    const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${access_token}`,
@@ -103,24 +103,25 @@ export default class Playlist extends React.Component {
         Accept: 'application/json',
       },
       body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (!response.ok) throw Error(response.statusText);
-        // TODO parse the response to make sure it's good
-        return response.json();
-      });
-    return p;
+    });
+
+    if (!response.ok) {
+      throw Error(response.statusText);
+    }
+
+    const responseData = await response.json();
+    return responseData;
   }
 
   /** Return a promise to fill playlist found in data
    *  with URIs passed in
    */
-  // Could be improved with async/await
-  fillPlaylist(data, playlistURIs) {
+  // TODO this will automatically wrap return value in a promise?
+  async fillPlaylist(data, playlistURIs) {
     const { access_token } = this.props;
     // TODO verify data.id exists
     const endpoint = `https://api.spotify.com/v1/playlists/${data.id}/tracks`;
-    const p = fetch(endpoint, {
+    const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${access_token}`,
@@ -128,23 +129,33 @@ export default class Playlist extends React.Component {
         Accept: 'application/json',
       },
       body: JSON.stringify(playlistURIs),
-    })
-      .then((response) => {
-        if (!response.ok) throw Error(response.statusText);
-      });
-    return p;
+    });
+
+    if (!response.ok) {
+      throw Error(response.statusText);
+    }
+
+    const responseData = await response.json();
+    return responseData;
   }
 
-  saveCurrentPlaylist() {
+  async saveCurrentPlaylist() {
     const { items, playlistName } = this.state;
     const { printMessage } = this.props;
     const description = 'Created by v-ify.com';
     // Save snapshot of current playlist
     const playlistURIs = items.map(item => item.uri);
-    this.createPlaylist(playlistName, description)
-      .then(data => this.fillPlaylist(data, playlistURIs))
-      .then(() => printMessage('Playlist Saved'))
-      .catch(() => printMessage('Unable to save playlist. Check your internet connection or reload the page.', true));
+
+    try {
+      const data = await this.createPlaylist(playlistName, description);
+      await this.fillPlaylist(data, playlistURIs);
+      printMessage('Playlist saved');
+    } catch (err) {
+      printMessage(
+        'Unable to save playlist. Check your internet connection or reload the page.',
+        true,
+      );
+    }
   }
 
   render() {
