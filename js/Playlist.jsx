@@ -47,25 +47,32 @@ export default class Playlist extends React.Component {
   }
 
   // Asyc fill playlist from Spotify API
-  fetchTopTracks() {
+  async fetchTopTracks() {
     const { time_range, limit } = this.state;
     const { endpoint, access_token, printMessage } = this.props;
     const params = {
       time_range,
       limit,
     };
-    fetch(createQueryUrl(endpoint, params), {
-      headers: { Authorization: `Bearer ${access_token}` },
-    })
-      .then((response) => {
-        if (!response.ok) throw Error(response.statusText);
-        return response.json();
-      })
-      .then((data) => {
-        this.setState(data);
-      })
-      .then(() => printMessage('Playlist loaded'))
-      .catch(() => printMessage('Unable to fetch tracks. Check your internet connection or reload this page.', true)); // TODO catch invalid credential
+
+    try {
+      const response = await fetch(createQueryUrl(endpoint, params), {
+        headers: { Authorization: `Bearer ${access_token}` },
+      });
+
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+
+      const responseData = await response.json();
+      this.setState(responseData);
+      printMessage('Playlist loaded');
+    } catch (err) {
+      printMessage(
+        'Unable to fetch tracks. Check your internet connection or reload this page.',
+        true,
+      ); // TODO catch invalid credential
+    }
   }
 
   handleTimeChange(value) {
